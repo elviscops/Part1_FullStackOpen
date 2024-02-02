@@ -4,30 +4,38 @@ const Header = function(props){
     return (<h1>{props.title}</h1>)
 }
 
-const Content = function(props){
+const Part = function(props){
     return (<p>{props.part} {props.count}</p>)
 }
 
-const Plus = (i) => {
-    if (i < 2) {
-        return (" + ");
-    } else {
-        return ("");
-    }}
+const Content = (props) =>{
+    return (
+        <div>
+            <Part part={props.part1} count={props.exercises1}/>
+            <Part part={props.part2} count={props.exercises2}/>
+            <Part part={props.part3} count={props.exercises3}/>
+        </div>
+    )
+}
 
 
 const Total = function(props){
-    const array = props.arr;
-
-    return ( <div>
-        <p>Number of exercises {" "}
-        {array.map( (val , i)=> {
-            return (val + Plus(i))
-        })}
-        </p>
+    function getSign(i){
+        if (i < 2) {
+            return (" + ");
+        } else {
+            return ("");
+        }
+    }
+    return ( 
+        <div>
+            <p>Number of exercises {" "}
+                {props.arr.map( (val , i)=> {
+                    return (val + getSign(i))
+                })}
+            </p>
         </div>
     )
-
 }
 
 
@@ -43,10 +51,11 @@ const App = () => {
     return (
       <div>
         <Header title={course}/>
-
-        <Content part={part1} count={exercises1}/>
-        <Content part={part2} count={exercises2}/>
-        <Content part={part3} count={exercises3}/>
+        <Content 
+            part1={part1} exercises1={exercises1}
+            part2={part2} exercises2={exercises2}
+            part3={part3} exercises3={exercises3}
+        />
         <Total arr={[exercises1,exercises2,exercises3]}/>
 
       </div>

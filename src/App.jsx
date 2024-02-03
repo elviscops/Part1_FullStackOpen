@@ -5,10 +5,18 @@ const Header = function(props){
 }
 
 const Part = (props)=>{
-    return (<div><p>{props.name} {props.exercises}</p></div>);
+    return (<div>{props.name} {props.exercises}</div>);
 }
 
 const Content = (props) =>{
+    // Iterative version using map
+    // const itemsList = props.parts.map((item)=>{
+    //     return (<Part key={item.name} name={item.name} exercises={item.exercises}/>)
+    // })
+    // return (
+    //     <div>{itemsList}</div>
+    // )
+
     return (
         <div>
             <Part name={props.parts[0].name} exercises={props.parts[0].exercises}/>
@@ -21,19 +29,15 @@ const Content = (props) =>{
 
 const Total = function(props){
     function getSign(i){
-        if (i < 2) {
-            return (" + ");
-        } else {
-            return ("");
-        }
+        if (i < 2){return(" + ")} else {return("")}
     }
+
     return ( 
         <div>
-            <p>Number of exercises {" "}
-                {props.parts.map( (val , i)=> {
-                    return (val.exercises + getSign(i))
-                })}
-            </p>
+            Number of exercises {" "}
+            {props.parts.map((val , i)=> {
+                return (val.exercises + getSign(i))
+            })}
         </div>
     )
 }
@@ -63,7 +67,6 @@ const App = () => {
         <Header course={course}/>
         <Content parts={course.parts}/>
         <Total parts={course.parts}/>
-
       </div>
     )
   }

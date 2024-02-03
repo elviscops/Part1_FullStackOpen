@@ -1,4 +1,4 @@
-
+import { useState } from 'react'
 
 const Header = function(props){
     return (<h1>{props.course.name}</h1>)
@@ -26,7 +26,6 @@ const Content = (props) =>{
     )
 }
 
-
 const Total = function(props){
     function getSign(i){
         if (i < 2){return(" + ")} else {return("")}
@@ -42,6 +41,9 @@ const Total = function(props){
     )
 }
 
+const DisplayCount = ({counter}) => {return (<div>{counter}</div>)}
+const Button = ({onClick,text}) => <button onClick={onClick}>{text}</button>
+    
 
 const App = () => {
     const course = {
@@ -61,12 +63,39 @@ const App = () => {
             }
         ]
     }
-     
+
+    const [ counter, setCounter ] = useState(0)
+
+    // const handlePlusClick = () => {
+    //     console.log('clicked')
+    //     return setCounter(counter + 1);
+    // }
+
+    const countUp = setTimeout(()=>setCounter(counter+1),1000)
+
+    const handleMinusClick = () => {
+        clearTimeout(countUp);
+        return setCounter(counter - 1);
+    }
+    const handleZeroClick = () => {
+        clearTimeout(countUp);
+        return setCounter(0);
+    }
+    console.log(counter)
     return (
       <div>
         <Header course={course}/>
         <Content parts={course.parts}/>
         <Total parts={course.parts}/>
+
+        {/* <button onClick={handlePlusClick}>+</button> */}
+        <DisplayCount counter={counter}/>
+        <Button onClick={handleMinusClick} text={"-"}/>
+        <Button onClick={handleZeroClick} text={0}/>
+
+
+        
+        
       </div>
     )
   }

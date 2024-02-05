@@ -49,8 +49,6 @@ const Total = function(props){
     )
 }
 
-// Practice Component functions
-// const DisplayCount = ({counter}) => {return (<div>{counter}</div>)}
 const Button = ({onClick,text}) => <button onClick={onClick}>{text}</button>
     
 
@@ -81,18 +79,17 @@ const App = () => {
     /***********************************************/
     /*******        Exercises 1.6-1.14     *********/ 
     /***********************************************/
-
+    // Constants
     const giveFeedackTitle = "Please, Give Feedback!";
     const statisticsTitle = "Statistics";
-
+    // States
     const [good, setGood] = useState(0);
     const [neutral, setNeutral] = useState(0);
     const [bad, setBad] = useState(0);
-
+    // Functions
     const handleGoodClick = () => setGood(good + 1);
     const handleNeutralClick = () => setNeutral(neutral + 1);
     const handleBadClick = () => setBad(bad + 1);
-
 
 
     return (
@@ -118,11 +115,6 @@ const App = () => {
         <TextP text={"Neutral: "} value={neutral}/>
         <TextP text={"Bad: "} value={bad}/>
 
-        {/* Practice components */}
-        {/* <DisplayCount counter={counter}/>
-        <button onClick={handlePlusClick}>+</button>
-        <Button onClick={handleMinusClick} text={"-"}/>
-        <Button onClick={handleZeroClick} text={0}/> */}
       </div>
     )
   }

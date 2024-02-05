@@ -1,5 +1,13 @@
 import { useState } from 'react'
 
+const TextH1 = function(props){
+    return (<h1>{props.text}</h1>)
+}
+
+const TextP = function(props){
+    return (<p>{props.text} {props.value}</p>)
+}
+
 const Header = function(props){
     return (<h1>{props.course.name}</h1>)
 }
@@ -41,11 +49,17 @@ const Total = function(props){
     )
 }
 
-const DisplayCount = ({counter}) => {return (<div>{counter}</div>)}
+// Practice Component functions
+// const DisplayCount = ({counter}) => {return (<div>{counter}</div>)}
 const Button = ({onClick,text}) => <button onClick={onClick}>{text}</button>
     
 
 const App = () => {
+
+    /**********************************************/
+    /*******        Exercises 1.1-1.5     *********/ 
+    /**********************************************/
+    // Constants
     const course = {
         name : 'Half Stack application development',
         parts : [
@@ -64,38 +78,51 @@ const App = () => {
         ]
     }
 
-    const [ counter, setCounter ] = useState(0)
+    /***********************************************/
+    /*******        Exercises 1.6-1.14     *********/ 
+    /***********************************************/
 
-    // const handlePlusClick = () => {
-    //     console.log('clicked')
-    //     return setCounter(counter + 1);
-    // }
+    const giveFeedackTitle = "Please, Give Feedback!";
+    const statisticsTitle = "Statistics";
 
-    const countUp = setTimeout(()=>setCounter(counter+1),1000)
+    const [good, setGood] = useState(0);
+    const [neutral, setNeutral] = useState(0);
+    const [bad, setBad] = useState(0);
 
-    const handleMinusClick = () => {
-        clearTimeout(countUp);
-        return setCounter(counter - 1);
-    }
-    const handleZeroClick = () => {
-        clearTimeout(countUp);
-        return setCounter(0);
-    }
-    console.log(counter)
+    const handleGoodClick = () => setGood(good + 1);
+    const handleNeutralClick = () => setNeutral(neutral + 1);
+    const handleBadClick = () => setBad(bad + 1);
+
+
+
     return (
       <div>
+
+        {/* Components for exercises 1.1 - 1.5 */}
+        <hr></hr>
+        <h5>Exercises 1.1 - 1.5</h5>
         <Header course={course}/>
         <Content parts={course.parts}/>
         <Total parts={course.parts}/>
+        <hr></hr>
 
-        {/* <button onClick={handlePlusClick}>+</button> */}
-        <DisplayCount counter={counter}/>
+
+        {/* Components for exercises 1.6 - 1.14 */}
+        <h5>Exercises 1.6 - 1.14</h5>
+        <TextH1 text={giveFeedackTitle}/>
+        <Button onClick={handleGoodClick} text={"Good"}/>
+        <Button onClick={handleNeutralClick} text={"Neutral"}/>
+        <Button onClick={handleBadClick} text={"Bad"}/>
+        <TextH1 text={statisticsTitle}/>
+        <TextP text={"Good: "} value={good}/>
+        <TextP text={"Neutral: "} value={neutral}/>
+        <TextP text={"Bad: "} value={bad}/>
+
+        {/* Practice components */}
+        {/* <DisplayCount counter={counter}/>
+        <button onClick={handlePlusClick}>+</button>
         <Button onClick={handleMinusClick} text={"-"}/>
-        <Button onClick={handleZeroClick} text={0}/>
-
-
-        
-        
+        <Button onClick={handleZeroClick} text={0}/> */}
       </div>
     )
   }

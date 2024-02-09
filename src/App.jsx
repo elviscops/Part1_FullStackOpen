@@ -1,20 +1,9 @@
 import { useState } from 'react'
 
-const TextH1 = function(props){
-    return (<h1>{props.text}</h1>)
-}
-
-const StatisticLineAvg = function(props){
-    return (<div><StatisticLine text={props.text} value={props.value.toFixed(3)}/></div>)
-}
-
-const StatisticLinePerc = function(props){
-    return (<div><StatisticLine text={props.text} value={props.value.toFixed(2).concat(" %")}/></div>)
-}
-
-const StatisticLine = function(props){
-    return (<div>{props.text}: {props.value}</div>)
-}
+/**********************************************/
+/*******        Exercises 1.1-1.5     *********/ 
+/**********************************************/
+// Componenets
 
 const Header = function(props){
     return (<h1>{props.course.name}</h1>)
@@ -25,14 +14,6 @@ const Part = (props)=>{
 }
 
 const Content = (props) =>{
-    // Iterative version using map
-    // const itemsList = props.parts.map((item)=>{
-    //     return (<Part key={item.name} name={item.name} exercises={item.exercises}/>)
-    // })
-    // return (
-    //     <div>{itemsList}</div>
-    // )
-
     return (
         <div>
             <Part name={props.parts[0].name} exercises={props.parts[0].exercises}/>
@@ -46,7 +27,6 @@ const Total = function(props){
     function getSign(i){
         if (i < 2){return(" + ")} else {return("")}
     }
-
     return ( 
         <div>
             Number of exercises {" "}
@@ -57,19 +37,43 @@ const Total = function(props){
     )
 }
 
+/***********************************************/
+/*******        Exercises 1.6-1.11     *********/ 
+/***********************************************/
+
+const TextH1 = function(props){
+    return (<h1>{props.text}</h1>)
+}
+
+const StatisticLineAvg = function(props){
+    return (<StatisticLine text={props.text} value={props.value.toFixed(3)}/>)
+}
+
+const StatisticLinePerc = function(props){
+    return (<StatisticLine text={props.text} value={props.value.toFixed(2).concat(" %")}/>)
+}
+
+const StatisticLine = function(props) {
+    return (<><td>{props.text}:</td><td>{props.value}</td></>)}
+
 const Statistics = (props) => {
     if (props.data.all_ratings === 0) {
-        return (<div><p>No Feedbacks Given</p></div>)
+        return (<tbody><tr><td>No Feedbacks Given</td></tr></tbody>)
     }
-    return ( <div>
-        <StatisticLine text={props.data.good_name} value={props.data.good_ratings}/>
-        <StatisticLine text={props.data.neutral_name} value={props.data.neutral_ratings}/>
-        <StatisticLine text={props.data.bad_name} value={props.data.bad_ratings}/>
-        <StatisticLine text={props.data.all_name} value={props.data.all_ratings}/>
-        <StatisticLineAvg text={props.data.avg_name} value={props.data.average_rating}/>
-        <StatisticLinePerc text={props.data.pos_name} value={props.data.positive_percentage}/>
-    </div>
+    return ( 
+        <tbody>
+            <tr><StatisticLine text={props.data.good_name} value={props.data.good_ratings}/></tr>
+            <tr><StatisticLine text={props.data.neutral_name} value={props.data.neutral_ratings}/></tr>
+            <tr><StatisticLine text={props.data.bad_name} value={props.data.bad_ratings}/></tr>
+            <tr><StatisticLine text={props.data.all_name} value={props.data.all_ratings}/></tr>
+            <tr><StatisticLineAvg text={props.data.avg_name} value={props.data.average_rating}/></tr>
+            <tr><StatisticLinePerc text={props.data.pos_name} value={props.data.positive_percentage}/></tr>
+        </tbody>
     )
+}
+
+const StatsTable = (props) =>{
+    return (<table><Statistics data={props.data}/></table>)
 }
 
 const Button = ({onClick,text}) => <button onClick={onClick}>{text}</button>
@@ -100,7 +104,7 @@ const App = () => {
     }
 
     /***********************************************/
-    /*******        Exercises 1.6-1.14     *********/ 
+    /*******        Exercises 1.6-1.11     *********/ 
     /***********************************************/
     // Constants
     const giveFeedackTitle = "Please, Give Feedback!";
@@ -127,7 +131,6 @@ const App = () => {
             positive_percentage: 0
         }
     }
-
     // States
     const [good, setGood] = useState(0);
     const [neutral, setNeutral] = useState(0);
@@ -188,14 +191,17 @@ const App = () => {
         <Total parts={course.parts}/>
         <hr></hr>
 
-        {/* Components for exercises 1.6 - 1.14 */}
+        {/* Components for exercises 1.6 - 1.11 */}
         <h5>Exercises 1.6 - 1.14</h5>
+
         <TextH1 text={giveFeedackTitle}/>
         <Button onClick={handleGoodClick} text={"Good"}/>
         <Button onClick={handleNeutralClick} text={"Neutral"}/>
         <Button onClick={handleBadClick} text={"Bad"}/>
         <TextH1 text={statisticsTitle}/>
-        <Statistics data={stats.data}/>
+        <StatsTable data={stats.data}/>
+        
+        
         
 
 

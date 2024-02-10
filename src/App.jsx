@@ -82,8 +82,19 @@ const Button = ({onClick,text}) => <button onClick={onClick}>{text}</button>
 /*******       Exercises 1.12 - 1.14   *********/ 
 /***********************************************/
 // Constants
+const anecdotes = [
+    'If it hurts, do it more often.',
+    'Adding manpower to a late software project makes it later!',
+    'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
+    'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
+    'Premature optimization is the root of all evil.',
+    'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
+    'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
+    'The only way to go fast, is to go well.'
+  ]
 const voteArray = Array(8).fill(0);
 const tmpVoteArray = [...voteArray]
+
 // Components
 const TextP = function(props){
     return (<div>{props.text}</div>)
@@ -101,22 +112,11 @@ const MostPopularAnecdote = (props) => {
     }
 }
     
-const stringifyVotes = (votes) =>{
-    return String("Has "+ votes +" votes")
-}
+const stringifyVotes = (votes) => String("Has "+ votes +" votes")
 
-
-
-
-
-
-
-
-
-
-////////////////////////////////////////////////////////////
-/////                   APP
-////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////   APP
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const App = () => {
 
     /**********************************************/
@@ -219,79 +219,67 @@ const App = () => {
                 setPerc((good/all)*100);
             }
 
-/***********************************************/
-/*******        Exercises 1.12         *********/ 
-/***********************************************/
-// Constants
-const anecdotes = [
-    'If it hurts, do it more often.',
-    'Adding manpower to a late software project makes it later!',
-    'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
-    'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
-    'Premature optimization is the root of all evil.',
-    'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
-    'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
-    'The only way to go fast, is to go well.'
-  ]
-   
-const [selected, setSelected] = useState(0);
-const [maxVotes, setMaxVotes] = useState(-1);
-const [maxVotesPos, setMaxVotesPos] = useState(-1);
+    /***********************************************/
+    /*******        Exercises 1.12-1.14    *********/ 
+    /***********************************************/
+    // Constants
+    const [selected, setSelected] = useState(0);
+    const [maxVotes, setMaxVotes] = useState(-1);
+    const [maxVotesPos, setMaxVotesPos] = useState(-1);
 
+    // Functions
+    const getAnecdoteIndex = () => {
+        const randomIndex = Math.floor(Math.random() * anecdotes.length);
+        setSelected(randomIndex);
+        // What to do when new random index is the same? seems to a slight issue in this case...
+        // For part 1 maybe this bug can be ignored...
+    }
 
-const getAnecdoteIndex = () => {
-    const randomIndex = Math.floor(Math.random() * anecdotes.length);
-    setSelected(randomIndex);
-}
+    const handleVoteClick = () => {
+        tmpVoteArray[selected] += 1;
+        getAnecdoteIndex();
+        getMostPopularAnecdote(tmpVoteArray);
+    }
 
-const handleVoteClick = () => {
-    tmpVoteArray[selected] += 1;
-    getAnecdoteIndex();
-    getMostPopularAnecdote(tmpVoteArray);
-}
+    const getMostPopularAnecdote = (listOfVotes) => {
+        setMaxVotes(Math.max(...listOfVotes));
+        setMaxVotesPos(listOfVotes.indexOf(Math.max(...listOfVotes)))
+    }
 
-
-const getMostPopularAnecdote = (listOfVotes) => {
-    setMaxVotes(Math.max(...listOfVotes));
-    setMaxVotesPos(listOfVotes.indexOf(Math.max(...listOfVotes)))
-}
-
-
-////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////                   APP RETURN
-////////////////////////////////////////////////////////////
-return (
-    <div>
-    {/* Components for exercises 1.1 - 1.5 */}
-    <hr></hr>
-    <h5>Exercises 1.1 - 1.5</h5>
-    <Header course={course}/>
-    <Content parts={course.parts}/>
-    <Total parts={course.parts}/>
-    <hr></hr>
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    return (
+        <div>
+        {/* Components for exercises 1.1 - 1.5 */}
+        <hr></hr>
+        <h5>Exercises 1.1 - 1.5</h5>
+        <Header course={course}/>
+        <Content parts={course.parts}/>
+        <Total parts={course.parts}/>
+        <hr></hr>
 
-    {/* Components for exercises 1.6 - 1.11 */}
-    <h5>Exercises 1.6 - 1.14</h5>
-    <TextH1 text={giveFeedackTitle}/>
-    <Button onClick={handleGoodClick} text={"Good"}/>
-    <Button onClick={handleNeutralClick} text={"Neutral"}/>
-    <Button onClick={handleBadClick} text={"Bad"}/>
-    <TextH1 text={statisticsTitle}/>
-    <StatsTable data={stats.data}/>
-    <hr></hr>
+        {/* Components for exercises 1.6 - 1.11 */}
+        <h5>Exercises 1.6 - 1.11</h5>
+        <TextH1 text={giveFeedackTitle}/>
+        <Button onClick={handleGoodClick} text={"Good"}/>
+        <Button onClick={handleNeutralClick} text={"Neutral"}/>
+        <Button onClick={handleBadClick} text={"Bad"}/>
+        <TextH1 text={statisticsTitle}/>
+        <StatsTable data={stats.data}/>
+        <hr></hr>
 
-    {/* Components for exercises 1.12-1.14*/}
-    <h5>Exercises 1.12-1.14</h5>
-    <TextH1 text={"Anecdote of the day"}/>
-    <TextP text={anecdotes[selected]}/>
-    <TextP text={stringifyVotes(tmpVoteArray[selected])}/>
-    <Button onClick={handleVoteClick} text={"Vote"}/>
-    <Button onClick={getAnecdoteIndex} text={"Next Anecdote"}/>
-    <TextH1 text={"Anecdote with most votes"}/>
-    <MostPopularAnecdote anecdote={anecdotes[maxVotesPos]} votes={maxVotes}/>
-
-    </div>
-)
+        {/* Components for exercises 1.12-1.14 */}
+        <h5>Exercises 1.12-1.14</h5>
+        <TextH1 text={"Anecdote of the day"}/>
+        <TextP text={anecdotes[selected]}/>
+        <TextP text={stringifyVotes(tmpVoteArray[selected])}/>
+        <Button onClick={handleVoteClick} text={"Vote"}/>
+        <Button onClick={getAnecdoteIndex} text={"Next Anecdote"}/>
+        <TextH1 text={"Anecdote with most votes"}/>
+        <MostPopularAnecdote anecdote={anecdotes[maxVotesPos]} votes={maxVotes}/>
+        </div>
+    )
 }
   
-  export default App
+export default App
